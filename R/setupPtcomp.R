@@ -11,11 +11,12 @@
 ##' @author Yasuhiro Kojima
 ##'
 ##' @import tibble Matrix tidyr
+##' @export
 setupPtcomp <- function(count.mat, t.vec, treatment.vec, replicate.vec, unit.num = 100){
   scale.exp.mat <- scaleExpression(count.mat)
   meta.data <- makeMetaData(colnames(count.mat), t.vec, treatment.vec, replicate.vec)
   meta.data %>%
-    addCompressedExpression(scale.exp.mat)
+    addCompressedExpression(scale.exp.mat, unit.num)
 }
 
 ##' Scaling gene expresiion
@@ -52,4 +53,48 @@ makeMetaData <- function(cell.vec, t.vec, treatment.vec, replicate.vec){
       t.vec = purrr::map(data, ~ .x$t),
       treatment = purrr::map(data, ~ .x$treatment[1])) %>%
     dplyr::select(replicate, treatment, cell.vec, t.vec)
+}
+
+
+##' Add columns of compressed expression
+##'
+##' Add columns of compressed expression
+##' @title 
+##' @param meta.df tibble, data frame containing cell information
+##' @param exp.mat numeric matrix, gene (row) * cell (column) matrix
+##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
+##' @return 
+##' @author 小嶋泰弘
+addCompressExpression <- function(meta.df, exp.mat, unit.num){
+  meta.df %>%
+    dplyr::mutate(
+      comp.exp.mat = purrr::map(
+        cell.vec, t.vec,
+        function(cell.vec, t.vec){
+          calculateCompExpMat(exp.mat[, cell.vec[order(t.vec)]], unit.num)
+        }),
+      comp.t.vec = purrr::map(
+        cell.vec, t.vec,
+        function(cell.vec, t.vec){
+          calculateCompTVec(exp.mat[, cell.vec[order(t.vec)]], unit.num)
+        }))
+}
+
+
+##' Calculate compressed expression
+##'
+##' Calculate compressed expression from \code{exp.mat}.
+##' @title 
+##' @param exp.mat numeric matrix, gene (row) * cell (column) matrix
+##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
+##' @return 
+##' @author 小嶋泰弘
+calculateCompExpMat <- function(exp.mat, unit.num){
+  col.num <- as.integer(ncol(exp.mat) / unit.num)
+  purrr::map(
+    0:(col.num - 1),
+    function(idx){
+      Matrix::rowMeans(exp.mat[, (idx * unit.num + 1):((idx + 1) * unit.num)])
+    }) %>%
+    {do.call(cbind, .)}
 }

@@ -16,3 +16,9 @@ test_that("makeMetaData works", {
     expect_equal(ncol(meta.df), 4)
 })
 
+test_that("calcculateCompExpMat works", {
+  exp.mat <- matrix(1:100, ncol = 10)
+  comp.mat <- calculateCompExpMat(exp.mat, 2)
+  expect_equal(dim(comp.mat), c(10, 5))
+  expect_equal(mean(comp.mat[1, ]), mean(exp.mat[1, ]))
+})
