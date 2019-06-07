@@ -1,7 +1,18 @@
 context("test-unit-test")
 
-test_that("scale_expression works", {
+test_that("scaleExpression works", {
   matrix <- matrix(c(1:100), ncol = 10)
   scaled.matrix <- scaleExpression(matrix)
-  expect_equal(mean(scaled.matrix[,1]), 1)
+  expect_equal(mean(scaled.matrix[, 1]), 1)
 })
+
+test_that("makeMetaData works", {
+    cell.vec <- c(1:100)
+    t.vec <- c(1:100)
+    replicate.vec <- purrr::map(1:10, rep, 10) %>% unlist()
+    treatment.vec <- purrr::map(1:5, rep, 20) %>% unlist()
+    meta.df <- makeMetaData(cell.vec, t.vec, treatment.vec, replicate.vec)
+    expect_equal(nrow(meta.df), 10)
+    expect_equal(ncol(meta.df), 4)
+})
+
