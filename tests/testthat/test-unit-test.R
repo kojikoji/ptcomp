@@ -16,14 +16,14 @@ test_that("makeMetaData works", {
     expect_equal(ncol(meta.df), 4)
 })
 
-test_that("calcculateCompExpMat works", {
+test_that("calculateCompExpMat works", {
   exp.mat <- matrix(1:100, ncol = 10)
   comp.mat <- calculateCompExpMat(exp.mat, 2)
   expect_equal(dim(comp.mat), c(10, 5))
   expect_equal(mean(comp.mat[1, ]), mean(exp.mat[1, ]))
 })
 
-test_that("calcculateCompTVec works", {
+test_that("calculateCompTVec works", {
   t.vec <- c(1:100)
   comp.t.vec <- calculateCompTVec(t.vec, 10)
   expect_equal(length(comp.t.vec), 10)
