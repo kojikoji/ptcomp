@@ -16,7 +16,7 @@ setupPtcomp <- function(count.mat, t.vec, treatment.vec, replicate.vec, unit.num
   scale.exp.mat <- scaleExpression(count.mat)
   meta.data <- makeMetaData(colnames(count.mat), t.vec, treatment.vec, replicate.vec)
   meta.data %>%
-    addCompressedExpression(scale.exp.mat, unit.num)
+    addCompExp(scale.exp.mat, unit.num)
 }
 
 ##' Scaling gene expresiion
@@ -65,15 +65,15 @@ makeMetaData <- function(cell.vec, t.vec, treatment.vec, replicate.vec){
 ##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
 ##' @return 
 ##' @author 小嶋泰弘
-addCompressExpression <- function(meta.df, exp.mat, unit.num){
+addCompExp <- function(meta.df, exp.mat, unit.num){
   meta.df %>%
     dplyr::mutate(
-      comp.exp.mat = purrr::map(
+      comp.exp.mat = purrr::map2(
         cell.vec, t.vec,
         function(cell.vec, t.vec){
           calculateCompExpMat(exp.mat[, cell.vec[order(t.vec)]], unit.num)
         }),
-      comp.t.vec = purrr::map(
+      comp.t.vec = purrr::map2(
         cell.vec, t.vec,
         function(cell.vec, t.vec){
           calculateCompTVec(sort(t.vec), unit.num)
