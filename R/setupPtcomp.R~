@@ -1,0 +1,1 @@
+setupPtcomp <- function(count.mat, t.vec, treatment.lab, replicate.lab, 
