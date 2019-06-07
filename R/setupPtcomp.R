@@ -76,7 +76,7 @@ addCompressExpression <- function(meta.df, exp.mat, unit.num){
       comp.t.vec = purrr::map(
         cell.vec, t.vec,
         function(cell.vec, t.vec){
-          calculateCompTVec(exp.mat[, cell.vec[order(t.vec)]], unit.num)
+          calculateCompTVec(sort(t.vec), unit.num)
         }))
 }
 
@@ -84,11 +84,11 @@ addCompressExpression <- function(meta.df, exp.mat, unit.num){
 ##' Calculate compressed expression
 ##'
 ##' Calculate compressed expression from \code{exp.mat}.
-##' @title 
+##' @title calculateCompExpMat
 ##' @param exp.mat numeric matrix, gene (row) * cell (column) matrix
 ##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
-##' @return 
-##' @author 小嶋泰弘
+##' @return comp.exp.mat numeric matrix, compressed expression matrix
+##' @author Yasuhiro Kojima
 calculateCompExpMat <- function(exp.mat, unit.num){
   col.num <- as.integer(ncol(exp.mat) / unit.num)
   purrr::map(
@@ -98,3 +98,23 @@ calculateCompExpMat <- function(exp.mat, unit.num){
     }) %>%
     {do.call(cbind, .)}
 }
+
+
+##' Calculate compressed pseudo time
+##'
+##' Calculate compressed pseudo time.
+##' @title calculateCompTVec
+##' @param t.vec numeric matrix, pseudo time for each cell
+##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
+##' @return comp.t.vec numeric vecotor, compressed pseudo time 
+##' @author Yasuhiro Kojima
+calculateCompTVec <- function(t.vec, unit.num){
+  comp.num <- as.integer(length(t.vec) / unit.num)
+  purrr::map_dbl(
+    0:(comp.num - 1),
+    function(idx){
+      mean(t.vec[(idx * unit.num + 1):((idx + 1) * unit.num)])
+    })
+}
+
+

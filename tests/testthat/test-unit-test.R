@@ -22,3 +22,10 @@ test_that("calcculateCompExpMat works", {
   expect_equal(dim(comp.mat), c(10, 5))
   expect_equal(mean(comp.mat[1, ]), mean(exp.mat[1, ]))
 })
+
+test_that("calcculateCompTVec works", {
+  t.vec <- c(1:100)
+  comp.t.vec <- calculateCompTVec(t.vec, 10)
+  expect_equal(length(comp.t.vec), 10)
+  expect_equal(mean(comp.t.vec), mean(t.vec))
+})
