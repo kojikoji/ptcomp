@@ -42,12 +42,12 @@ calculateGPDf <- function(gene.vec, ptcomp.df){
   concat.t.vec <- concatTVec(ptcomp.df)
   gene.vec <- intersect(gene.vec, rownames(concat.exp.mat))
   purrr::map_dfr(
-           gene.vec,
-           function(gene){
-             c(
-               list(gene = gene),
-               calculateGP(concat.exp.mat[gene, ], concat.t.vec))
-           })
+    gene.vec,
+    function(gene){
+      c(
+        list(gene = gene),
+        calculateGP(concat.exp.mat[gene, ], concat.t.vec))
+    })
 }
 
 
