@@ -25,3 +25,22 @@ test_that("calculateGPDf works", {
     c("gene", "ll", "params"))
   expect_equal(nrow(gp.df), 2)
 })
+
+test_that("calculateLLDiff works", {
+  exp.mat <- matrix(rnorm(30), nrow = 3)
+  rownames(exp.mat) <- c("a", "b", "c")
+  t.vec <- 1:10
+  ptcomp.df <- tibble(
+    comp.exp.mat = list(exp.mat, exp.mat),
+    comp.t.vec = list(t.vec, t.vec))
+  tr1.ptcomp.df <- ptcomp.df %>%
+    {.$treatment <- "tr1";.}
+  tr2.ptcomp.df <- ptcomp.df %>%
+    {.$treatment <- "tr2";.}
+  gene.vec <- c("a", "b")
+  ll.diff.df <- calculateLLDiff("tr1", "tr2", gene.vec, ptcomp.df)
+  expect_equal(
+    colnames(ll.diff.df),
+    c("gene", "ll.tr1", "ll.tr2", "ll", "diff.ll"))
+  expect_equal(nrow(ll.diff.df), 2)
+})
