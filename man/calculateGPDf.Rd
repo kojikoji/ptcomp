@@ -4,9 +4,11 @@
 \alias{calculateGPDf}
 \title{calculateGPDf}
 \usage{
-calculateGPDf(ptcomp.df)
+calculateGPDf(gene.vec, ptcomp.df)
 }
 \arguments{
+\item{gene.vec}{charactor vector, gene names}
+
 \item{ptcomp.df}{data frame, contain expression and annotation}
 }
 \value{

@@ -31,12 +31,23 @@ calculateGP <- function(t.vec, exp.vec, sparse.gp.res = 20){
 ##'
 ##' The columns represent gene name, log likelihood and each parameter
 ##' @title calculateGPDf
+##' @param gene.vec charactor vector, gene names
 ##' @param ptcomp.df data frame, contain expression and annotation
 ##' @return gp.df data frame
 ##' @author Yasuhiro Kojima
 ##' @import tibble
 ##' @export
-calculateGPDf <- function(ptcomp.df){
+calculateGPDf <- function(gene.vec, ptcomp.df){
+  concat.exp.mat <- concatExpMat(gene.vec, ptcomp.df)
+  concat.t.vec <- concatTVec(ptcomp.df)
+  gene.vec <- intersect(gene.vec, rownames(concat.exp.mat))
+  purrr::map_dfr(
+           gene.vec,
+           function(gene){
+             c(
+               list(gene = gene),
+               calculateGP(concat.exp.mat[gene, ], concat.t.vec))
+           })
 }
 
 
@@ -49,6 +60,9 @@ calculateGPDf <- function(ptcomp.df){
 ##' @return exp.mat
 ##' @author Yasuhiro Kojima
 concatExpMat <- function(gene.vec, ptcomp.df){
+  ptcomp.df$comp.exp.mat %>%
+    {do.call(cbind, .)} %>%
+    {.[gene.vec, ]}
 }
 
 
@@ -60,5 +74,7 @@ concatExpMat <- function(gene.vec, ptcomp.df){
 ##' @return t.vec  numeric vector, each element represent pseudo time for each gene
 ##' @author Yasuhiro Kojima
 concatTVec <- function(pt.comp.df){
+  pt.comp.df %>%
+    {do.call(c, .$comp.t.vec)}
 }
 

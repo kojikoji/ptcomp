@@ -36,3 +36,19 @@ test_that("calculateGP works", {
   gp.rlt <- calculateGP(t.vec, exp.vec)
   expect_equal(names(gp.rlt), c("ll", "params"))
 })
+
+test_that("concatExpMat works", {
+  mat <- matrix(1:30, nrow = 3)
+  rownames(mat) <- c("a", "b", "c")
+  ptcomp.df <- tibble(comp.exp.mat = list(mat, mat))
+  gene.vec <- c("a", "b")
+  concat.mat <- concatExpMat(gene.vec, ptcomp.df)
+  expect_equal(dim(concat.mat), c(2, 20))
+})
+
+test_that("concatTVec works", {
+  t.vec <- 1:10
+  ptcomp.df <- tibble(comp.t.vec = list(t.vec, t.vec))
+  concat.t.vec <- concatTVec(ptcomp.df)
+  expect_equal(length(concat.t.vec), 20)
+})
