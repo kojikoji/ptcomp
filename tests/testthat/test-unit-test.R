@@ -29,3 +29,10 @@ test_that("calculateCompTVec works", {
   expect_equal(length(comp.t.vec), 10)
   expect_equal(mean(comp.t.vec), mean(t.vec))
 })
+
+test_that("calculateGP works", {
+  t.vec <- 1:10
+  exp.vec <- rnorm(10)
+  gp.rlt <- calculateGP(t.vec, exp.vec)
+  expect_equal(names(gp.rlt), c("ll", "params"))
+})

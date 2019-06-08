@@ -4,12 +4,12 @@
 \alias{calculateGP}
 \title{calculateGP}
 \usage{
-calculateGP(exp.vec, t.vec)
+calculateGP(t.vec, exp.vec, sparse.gp.res = 20)
 }
 \arguments{
-\item{exp.vec}{numeric vector, expression values}
-
 \item{t.vec}{numeric vector, pseudo time values}
+
+\item{exp.vec}{numeric vector, expression values}
 }
 \value{
 gp.rlt list, contain loglikelihood and optimized parameters

@@ -1,3 +1,14 @@
+##' Convert vector to 1 column matrix
+##'
+##' 
+##' @title vec2mat
+##' @param vec numeric vector
+##' @return mat numeric matrix
+##' @author 小嶋泰弘
+vec2mat <- function(vec){
+  matrix(vec, ncol = 1)
+}
+
 ##' Calculate GP for each gene
 ##'
 ##' This function calculate the log likelihood and optimized parameters as list
@@ -7,7 +18,13 @@
 ##' @return gp.rlt list, contain loglikelihood and optimized parameters
 ##' @author Yasuhiro Kojima
 ##' @import dplyr
-calculateGP <- function(exp.vec, t.vec){
+calculateGP <- function(t.vec, exp.vec, sparse.gp.res = 20){
+  Z <- seq(from = min(t.vec), to = max(t.vec), length.out = sparse.gp.res) %>%
+    vec2mat()
+  gp.model <- GPy$models$SparseGPRegression(vec2mat(t.vec), vec2mat(exp.vec), Z = Z)
+  gp.model$optimize('bfgs')
+  list(ll = gp.model$log_likelihood(),
+       params = list(gp.model$param_array[(1:3) + sparse.gp.res]))
 }
 
 ##' Calculate GP for all genes and store them in data frame
