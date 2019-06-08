@@ -59,12 +59,12 @@ makeMetaData <- function(cell.vec, t.vec, treatment.vec, replicate.vec){
 ##' Add columns of compressed expression
 ##'
 ##' Add columns of compressed expression
-##' @title 
+##' @title addCompExp
 ##' @param meta.df tibble, data frame containing cell information
 ##' @param exp.mat numeric matrix, gene (row) * cell (column) matrix
 ##' @param unit.num numeric, how many cells are calculated for one entry of mean expression entry
-##' @return 
-##' @author 小嶋泰弘
+##' @return comp.exp.mat numeric matrix, expression for several cells
+##' @author Yasuhiro Kojima
 addCompExp <- function(meta.df, exp.mat, unit.num){
   meta.df %>%
     dplyr::mutate(
@@ -116,5 +116,3 @@ calculateCompTVec <- function(t.vec, unit.num){
       mean(t.vec[(idx * unit.num + 1):((idx + 1) * unit.num)])
     })
 }
-
-

@@ -4,7 +4,7 @@
 \alias{setupPtcomp}
 \title{setupPtcomp}
 \usage{
-setupPtcomp(count.mat, t.vec, treatment.lab, replicate.lab,
+setupPtcomp(count.mat, t.vec, treatment.vec, replicate.vec,
   unit.num = 100)
 }
 \arguments{
@@ -12,9 +12,9 @@ setupPtcomp(count.mat, t.vec, treatment.lab, replicate.lab,
 
 \item{t.vec}{numeric vector, pseudo time estimation for each cell}
 
-\item{treatment.lab}{character vector, experimental treatment for each cell}
+\item{treatment.vec}{character vector, experimental treatment for each cell}
 
-\item{replicate.lab}{character vector, experimental replicate for each cell}
+\item{replicate.vec}{character vector, experimental replicate for each cell}
 
 \item{unit.num}{numeric, how many cells are calculated for one entry of mean expression entry}
 }
