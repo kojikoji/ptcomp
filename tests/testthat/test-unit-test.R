@@ -41,7 +41,7 @@ test_that("concatExpMat works", {
   mat <- matrix(1:30, nrow = 3)
   rownames(mat) <- c("a", "b", "c")
   ptcomp.df <- tibble(comp.exp.mat = list(mat, mat))
-  gene.vec <- c("a", "b")
+  gene.vec <- c("a", "b", "d")
   concat.mat <- concatExpMat(gene.vec, ptcomp.df)
   expect_equal(dim(concat.mat), c(2, 20))
 })

@@ -60,6 +60,12 @@ calculateGPDf <- function(gene.vec, ptcomp.df){
 ##' @return exp.mat
 ##' @author Yasuhiro Kojima
 concatExpMat <- function(gene.vec, ptcomp.df){
+  gene.vec <- ptcomp.df$comp.exp.mat %>%
+    purrr::reduce(
+      function(pre.gene.vec, exp.mat){
+        intersect(pre.gene.vec, rownames(exp.mat))
+      },
+      .init = gene.vec)
   ptcomp.df$comp.exp.mat %>%
     {do.call(cbind, .)} %>%
     {.[gene.vec, ]}

@@ -37,7 +37,7 @@ test_that("calculateLLDiff works", {
     {.$treatment <- "tr1";.}
   tr2.ptcomp.df <- ptcomp.df %>%
     {.$treatment <- "tr2";.}
-  gene.vec <- c("a", "b")
+  gene.vec <- c("a", "b", "d")
   ll.diff.df <- calculateLLDiff("tr1", "tr2", gene.vec, ptcomp.df)
   expect_equal(
     colnames(ll.diff.df),
