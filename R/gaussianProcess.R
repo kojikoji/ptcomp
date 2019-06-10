@@ -19,6 +19,8 @@ vec2mat <- function(vec){
 ##' @author Yasuhiro Kojima
 ##' @import dplyr
 calculateGP <- function(t.vec, exp.vec, sparse.gp.res = 20){
+  t.vec <-  t.vec/max(t.vec)
+  exp.vec <-  (exp.vec - mean(exp.vec))/sd(exp.vec)
   Z <- seq(from = min(t.vec), to = max(t.vec), length.out = sparse.gp.res) %>%
     vec2mat()
   gp.model <- GPy$models$SparseGPRegression(vec2mat(t.vec), vec2mat(exp.vec), Z = Z)
