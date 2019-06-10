@@ -38,4 +38,5 @@ calculateLLDiff <- function(treatment1, treatment2, gene.vec, ptcomp.df){
 ##' @export
 permutateTreatment <- function(ptcomp.df){
   ptcomp.df$treatment <- sample(ptcomp.df$treatment)
+  ptcomp.df
 }
