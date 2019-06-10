@@ -48,7 +48,7 @@ calculateGPDf <- function(gene.vec, ptcomp.df){
     function(gene){
       c(
         list(gene = gene),
-        calculateGP(concat.exp.mat[gene, ], concat.t.vec))
+        calculateGP(concat.t.vec, concat.exp.mat[gene, ]))
     })
 }
 
