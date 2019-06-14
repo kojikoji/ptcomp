@@ -22,7 +22,7 @@ test_that("calculateGPDf works", {
   gp.df <- calculateGPDf(gene.vec, ptcomp.df)
   expect_equal(
     colnames(gp.df),
-    c("gene", "ll", "params"))
+    c("gene", "ll", "params", "predict.exp.vec", "predict.dexp.vec"))
   expect_equal(nrow(gp.df), 2)
 })
 

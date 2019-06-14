@@ -25,8 +25,13 @@ calculateGP <- function(t.vec, exp.vec, sparse.gp.res = 20){
     vec2mat()
   gp.model <- GPy$models$SparseGPRegression(vec2mat(t.vec), vec2mat(exp.vec), Z = Z)
   gp.model$optimize('bfgs')
+  predict.exp.vec <- gp.model$predict(vec2mat(t.vec))[[1]]
+  dt <- 1.0e-6
+  predict.dexp.vec <- gp.model$predict(vec2mat(t.vec + dt))[[1]] - predict.exp.vec
   list(ll = gp.model$log_likelihood(),
-       params = list(gp.model$param_array[(1:3) + sparse.gp.res]))
+       params = list(gp.model$param_array[(1:3) + sparse.gp.res]),
+       predict.exp.vec = list(predict.exp.vec),
+       predict.dexp.vec = list(predict.dexp.vec))
 }
 
 ##' Calculate GP for all genes and store them in data frame
@@ -45,7 +50,7 @@ calculateGPDf <- function(gene.vec, ptcomp.df){
   gene.vec <- intersect(gene.vec, rownames(concat.exp.mat))
   purrr::map_dfr(
     gene.vec,
-    function(gene){
+    function(gene){      
       c(
         list(gene = gene),
         calculateGP(concat.t.vec, concat.exp.mat[gene, ]))
