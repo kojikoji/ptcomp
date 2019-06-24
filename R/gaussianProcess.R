@@ -44,7 +44,7 @@ calculateGP <- function(t.vec, exp.vec, sparse.gp.res = 20){
 ##' @author Yasuhiro Kojima
 ##' @import tibble
 ##' @export
-calculateGPDf <- function(gene.vec, ptcomp.df){
+calculateGPDf <- function(gene.vec, ptcomp.df, sparse.gp.res = 20){
   concat.exp.mat <- concatExpMat(gene.vec, ptcomp.df)
   concat.t.vec <- concatTVec(ptcomp.df)
   gene.vec <- intersect(gene.vec, rownames(concat.exp.mat))
@@ -53,7 +53,7 @@ calculateGPDf <- function(gene.vec, ptcomp.df){
     function(gene){      
       c(
         list(gene = gene),
-        calculateGP(concat.t.vec, concat.exp.mat[gene, ]))
+        calculateGP(concat.t.vec, concat.exp.mat[gene, ], sparse.gp.res = sparse.gp.res))
     })
 }
 

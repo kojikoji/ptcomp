@@ -9,13 +9,14 @@
 ##' @return diff.ll.df data frame, gene name, treatment1 ll, treatment2 ll, merged ll
 ##' @author Yasuhiro Kojima
 ##' @export
-calculateLLDiff <- function(treatment1, treatment2, gene.vec, ptcomp.df){
+calculateLLDiff <- function(treatment1, treatment2, gene.vec, ptcomp.df, sparse.gp.res = 20){
   tr.gp.df.list <- purrr::map(
     list(tr1 = treatment1, tr2 = treatment2, merge = c(treatment1, treatment2)),
     function(treatment){
       calculateGPDf(
         gene.vec,
-        dplyr::filter(ptcomp.df, treatment %in% !!treatment))
+        dplyr::filter(ptcomp.df, treatment %in% !!treatment),
+        sparse.gp.res = sparse.gp.res)
     })
   dplyr::inner_join(
     tr.gp.df.list$tr1,
