@@ -3,9 +3,7 @@ safe_import_from_path <- function(module.name, libname, pckgname){
     assign(paste("py", module.name, sep="_"), reticulate::import_from_path(module.name, path = file.path(libname, pckgname, "src")), pos = .GlobalEnv),
     error = function(e){
       packageStartupMessage("Install python dependencies...")
-      reticulate::py_install(c("numpy", "GPy"))
-      assign(module.name, reticulate::import_from_path(module.name, path = file.path(libname, pckgname, "src")), pos = .GlobalEnv)
-      
+      reticulate::py_install(c("numpy", "GPy"))      
     })
 }
 
