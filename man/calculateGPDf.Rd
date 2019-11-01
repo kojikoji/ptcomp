@@ -4,7 +4,7 @@
 \alias{calculateGPDf}
 \title{calculateGPDf}
 \usage{
-calculateGPDf(gene.vec, ptcomp.df)
+calculateGPDf(gene.vec, ptcomp.df, sparse.gp.res = 20)
 }
 \arguments{
 \item{gene.vec}{charactor vector, gene names}

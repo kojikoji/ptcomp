@@ -4,7 +4,8 @@
 \alias{calculateLLDiff}
 \title{calculateLLDiff}
 \usage{
-calculateLLDiff(treatment1, treatment2, gene.vec, ptcomp.df)
+calculateLLDiff(treatment1, treatment2, gene.vec, ptcomp.df,
+  sparse.gp.res = 20)
 }
 \arguments{
 \item{treatment1}{character, first treatment}
