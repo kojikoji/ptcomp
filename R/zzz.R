@@ -10,8 +10,9 @@ safe_import_from_path <- function(module.name, libname, pckgname){
 
 .onLoad <- function(libname, pckgname){
   packageStartupMessage("Import python module in this repository") 
-  reticulate::use_condaenv("r-reticulate")
-  reticulate::use_virtualenv("r-reticulate")
+  # reticulate::use_condaenv("r-reticulate")
+  # reticulate::use_virtualenv("r-reticulate")
+  py_install(c("numpy", "GPy"))
   importlib <<- reticulate::import("importlib", delay_load = TRUE)
   py_builtin <<- reticulate::import_builtins()
   numpy <<- reticulate::import("numpy", delay_load = TRUE)
